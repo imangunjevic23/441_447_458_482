@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Agencies() {
     const [agencies, setAgencies] = useState([]);
-    const [newAgency, setNewAgency] = useState({ id: '', name: '', location: '' });
+    const [newAgency, setNewAgency] = useState({ name: '', address: '', email: '' });
     const [editingAgency, setEditingAgency] = useState(null);
     const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ function Agencies() {
         })
             .then((res) => res.json())
             .then(() => {
-                setNewAgency({ id: '', name: '', location: '' });
+                setNewAgency({ name: '', address: '', email: '' });
                 fetchAgencies();
             })
             .catch((err) => console.error('Error:', err));
@@ -73,14 +73,7 @@ function Agencies() {
 
             <form onSubmit={addAgency} style={styles.form}>
                 <h3>Dodaj novu agenciju</h3>
-                <input
-                    style={styles.input}
-                    type="text"
-                    placeholder="ID"
-                    value={newAgency.id}
-                    onChange={(e) => setNewAgency({ ...newAgency, id: e.target.value })}
-                    required
-                />
+
                 <input
                     style={styles.input}
                     type="text"
@@ -92,9 +85,16 @@ function Agencies() {
                 <input
                     style={styles.input}
                     type="text"
-                    placeholder="Location"
-                    value={newAgency.location}
-                    onChange={(e) => setNewAgency({ ...newAgency, location: e.target.value })}
+                    placeholder="Address"
+                    value={newAgency.address}
+                    onChange={(e) => setNewAgency({ ...newAgency, address: e.target.value })}
+                />
+                <input
+                    style={styles.input}
+                    type="email"
+                    placeholder="Email"
+                    value={newAgency.email}
+                    onChange={(e) => setNewAgency({ ...newAgency, email: e.target.value })}
                     required
                 />
                 <button style={styles.button} type="submit">Dodaj</button>
@@ -115,9 +115,16 @@ function Agencies() {
                     <input
                         style={styles.input}
                         type="text"
-                        placeholder="Location"
-                        value={editingAgency.location}
-                        onChange={(e) => setEditingAgency({ ...editingAgency, location: e.target.value })}
+                        placeholder="Address"
+                        value={editingAgency.address || ''}
+                        onChange={(e) => setEditingAgency({ ...editingAgency, address: e.target.value })}
+                    />
+                    <input
+                        style={styles.input}
+                        type="email"
+                        placeholder="Email"
+                        value={editingAgency.email}
+                        onChange={(e) => setEditingAgency({ ...editingAgency, email: e.target.value })}
                         required
                     />
                     <button style={styles.button} type="submit">Sačuvaj</button>
@@ -135,7 +142,8 @@ function Agencies() {
                         <tr>
                             <th>ID</th>
                             <th>Naziv</th>
-                            <th>Lokacija</th>
+                            <th>Adresa</th>
+                            <th>Email</th>
                             <th>Akcije</th>
                         </tr>
                         </thead>
@@ -144,7 +152,8 @@ function Agencies() {
                             <tr key={agency.id}>
                                 <td>{agency.id}</td>
                                 <td>{agency.name}</td>
-                                <td>{agency.location}</td>
+                                <td>{agency.address}</td>
+                                <td>{agency.email}</td>
                                 <td>
                                     <button style={styles.buttonSmall} onClick={() => startEditing(agency)}>Edit</button>
                                     <button style={styles.buttonDelete} onClick={() => deleteAgency(agency.id)}>Obriši</button>

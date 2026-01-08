@@ -13,8 +13,8 @@ exports.getAllAgencies = async (req, res) => {
 // POST /agencies
 exports.addAgency = async (req, res) => {
     try {
-        const { id, name, location } = req.body;
-        await Agency.create({ id, name, location });
+        const { name, address, email } = req.body;
+        await Agency.create({ name, address, email });
         res.status(201).json({ message: 'Agency added successfully.' });
     } catch (err) {
         res.status(500).json({ message: 'Error adding agency', error: err.message });
@@ -25,7 +25,7 @@ exports.addAgency = async (req, res) => {
 exports.updateAgency = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, location } = req.body;
+        const { name, address, email } = req.body;
 
         const agency = await Agency.findByPk(id);
         if (!agency) {
@@ -33,7 +33,8 @@ exports.updateAgency = async (req, res) => {
         }
 
         agency.name = name;
-        agency.location = location;
+        agency.address = address;
+        agency.email = email;
         await agency.save();
 
         res.json({ message: 'Agency updated successfully.' });

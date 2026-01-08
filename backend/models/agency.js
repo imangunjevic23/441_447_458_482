@@ -8,8 +8,8 @@ const Agency = sequelize.define('Agency', {
         autoIncrement: true
     },
     name: { type: DataTypes.STRING, allowNull: false },
-    location: { type: DataTypes.STRING, allowNull: false },
-    email: { type: DataTypes.STRING }
+    address: { type: DataTypes.STRING },
+    email: { type: DataTypes.STRING, allowNull: false }
 }, { tableName: 'agencies', timestamps: false });
 
 module.exports = Agency;
