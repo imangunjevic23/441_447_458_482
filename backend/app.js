@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors'); // Dodaj ovo
-const sequelize = require('./database');
+const { sequelize } = require('./models');
 const tripRoutes = require('./routes/tripRoutes');
 const agencyRoutes = require('./routes/agencyRoutes');
 const travelerRoutes = require('./routes/travelerRoutes');

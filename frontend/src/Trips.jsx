@@ -18,7 +18,7 @@ function Trips() {
     }, []);
 
     const fetchTrips = () => {
-        fetch('/trips')
+        fetch('/trips?include=travelers')
             .then((res) => res.json())
             .then((data) => setTrips(Array.isArray(data) ? data : []))
             .catch((err) => console.error(err));
@@ -180,6 +180,7 @@ function Trips() {
                                 <th style={styles.tableHeaderCell}>Opis</th>
                                 <th style={styles.tableHeaderCell}>Cijena (KM)</th>
                                 <th style={styles.tableHeaderCell}>Slika</th>
+                                <th style={styles.tableHeaderCell}>Putnici</th>
                                 <th style={styles.tableHeaderCell}>Akcije</th>
                             </tr>                            </thead>
                             <tbody>
@@ -195,6 +196,19 @@ function Trips() {
                                             alt={trip.destination}
                                             style={styles.thumbnail}
                                         />
+                                    </td>
+                                    <td style={styles.tableCell}>
+                                        {trip.travelers && trip.travelers.length > 0 ? (
+                                            <ul style={styles.list}>
+                                                {trip.travelers.map((traveler) => (
+                                                    <li key={traveler.id}>
+                                                        {traveler.name} ({traveler.age})
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        ) : (
+                                            <span>Nema putnika</span>
+                                        )}
                                     </td>
                                     <td style={styles.tableCell}>
                                         <button style={styles.buttonSmall} onClick={() => startEditing(trip)}>Edit</button>
@@ -305,7 +319,11 @@ const styles = {
         padding: '10px',
         borderBottom: '1px solid #e0e0e0'
 
-    }
+    },
+    list: {
+        margin: 0,
+        paddingLeft: '18px'
+}
 };
 
 export default Trips;

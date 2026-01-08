@@ -1,14 +1,38 @@
-const Trip = require('../models/trip');
+const { Trip, Traveler, Agency } = require('../models');
 
 // Dobavljanje svih putovanja
 exports.getAllTrips = async (req, res) => {
     try {
-        const trips = await Trip.findAll();
+        const include = [];
+        if (req.query.include === 'travelers') {
+            include.push({ model: Traveler, as: 'travelers' });
+        }
+        if (req.query.include === 'agency') {
+            include.push({ model: Agency, as: 'agency' });
+        }
+        const trips = await Trip.findAll({ include });
         res.json(trips);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 };
+
+// GET /trips/:id/travelers
+exports.getTripTravelers = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const trip = await Trip.findByPk(id, {
+            include: [{ model: Traveler, as: 'travelers' }]
+        });
+        if (!trip) {
+            return res.status(404).json({ error: 'Trip not found' });
+        }
+        return res.json(trip);
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+};
+
 
 // Dodavanje putovanja
 exports.addTrip = async (req, res) => {

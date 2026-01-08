@@ -1,5 +1,5 @@
 // controllers/travelerController.js
-const Traveler = require('../models/traveler');
+const { Traveler } = require('../models');
 
 // GET /travelers
 exports.getAllTravelers = async (req, res) => {
@@ -14,9 +14,9 @@ exports.getAllTravelers = async (req, res) => {
 // POST /travelers
 exports.addTraveler = async (req, res) => {
     try {
-        const { id, name, age } = req.body;
+        const { id, name, age, tripId } = req.body;
         // ili: Traveler.create(req.body) ako objekat direktno mapira
-        await Traveler.create({ id, name, age });
+        await Traveler.create({ id, name, age, tripId });
         res.status(201).json({ message: 'Traveler added successfully.' });
     } catch (err) {
         res.status(500).json({ message: 'Error adding traveler', error: err.message });
@@ -26,7 +26,7 @@ exports.addTraveler = async (req, res) => {
 // PUT /travelers/:id
 exports.updateTraveler = async (req, res) => {
     try {
-        const { name, age } = req.body;
+        const { name, age, tripId } = req.body;
         const { id } = req.params;
 
         const traveler = await Traveler.findByPk(id);
@@ -36,6 +36,7 @@ exports.updateTraveler = async (req, res) => {
 
         traveler.name = name;
         traveler.age = age;
+        traveler.tripId = tripId;
         await traveler.save(); // ili traveler.update({ name, age })
 
         res.json({ message: 'Traveler updated successfully.' });

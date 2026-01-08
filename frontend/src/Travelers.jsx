@@ -11,7 +11,7 @@ U Trips.jsx, polja su id, destination, duration, travelerId.
 
 function Travelers() {
     const [travelers, setTravelers] = useState([]);
-    const [newTraveler, setNewTraveler] = useState({ id: '', name: '', age: '' });
+    const [newTraveler, setNewTraveler] = useState({ id: '', name: '', age: '', tripId: '' });
     const [editingTraveler, setEditingTraveler] = useState(null); // za edit form
 
     // Fetch-ujemo listu travelers prilikom mount-a
@@ -36,7 +36,7 @@ function Travelers() {
         })
             .then((res) => res.json())
             .then(() => {
-                setNewTraveler({ id: '', name: '', age: '' });
+                setNewTraveler({ id: '', name: '', age: '', tripId: '' });
                 fetchTravelers(); // ponovno učitaj listu
             })
             .catch((err) => console.error('Error:', err));
@@ -110,6 +110,13 @@ function Travelers() {
                     onChange={(e) => setNewTraveler({ ...newTraveler, age: e.target.value })}
                     required
                 />
+                    <input
+                        style={styles.input}
+                        type="text"
+                        placeholder="Trip ID"
+                        value={newTraveler.tripId}
+                        onChange={(e) => setNewTraveler({ ...newTraveler, tripId: e.target.value })}
+                    />
                 <button style={styles.button} type="submit">Dodaj</button>
                 </form>
 
@@ -134,6 +141,13 @@ function Travelers() {
                         onChange={(e) => setEditingTraveler({ ...editingTraveler, age: e.target.value })}
                         required
                     />
+                        <input
+                            style={styles.input}
+                            type="text"
+                            placeholder="Trip ID"
+                            value={editingTraveler.tripId || ''}
+                            onChange={(e) => setEditingTraveler({ ...editingTraveler, tripId: e.target.value })}
+                    />
                         <button style={styles.button} type="submit">Sačuvaj</button>
                         <button style={styles.buttonCancel} type="button" onClick={() => setEditingTraveler(null)}>Odustani</button>
                     </form>
@@ -151,6 +165,7 @@ function Travelers() {
                                 <th style={styles.tableHeaderCell}>ID</th>
                                 <th style={styles.tableHeaderCell}>Ime</th>
                                 <th style={styles.tableHeaderCell}>Godine</th>
+                                <th style={styles.tableHeaderCell}>Trip ID</th>
                                 <th style={styles.tableHeaderCell}>Akcije</th>
                             </tr>
                             </thead>
@@ -160,6 +175,7 @@ function Travelers() {
                                     <td style={styles.tableCell}>{trav.id}</td>
                                     <td style={styles.tableCell}>{trav.name}</td>
                                     <td style={styles.tableCell}>{trav.age}</td>
+                                    <td style={styles.tableCell}>{trav.tripId || '—'}</td>
                                     <td style={styles.tableCell}>
                                         <button style={styles.buttonSmall} onClick={() => startEditing(trav)}>Edit</button>
                                         <button style={styles.buttonDelete} onClick={() => deleteTraveler(trav.id)}>Obriši</button>

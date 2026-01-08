@@ -1,4 +1,4 @@
-const Agency = require('../models/agency');
+const { Agency } = require('../models');
 
 // GET /agencies
 exports.getAllAgencies = async (req, res) => {
