@@ -79,10 +79,11 @@ function Trips() {
 
     return (
         <div style={styles.pageContainer}>
-            <button onClick={() => navigate('/')}>← Nazad na početnu</button>
-            <h1 style={styles.title}>Putovanja</h1>
+            <div style={styles.contentWrapper}>
+                <button style={styles.backButton} onClick={() => navigate('/')}>← Nazad na početnu</button>
+                <h1 style={styles.title}>Putovanja</h1>
 
-            <form onSubmit={addTrip} style={styles.form}>
+                <form onSubmit={addTrip} style={styles.form}>
                 <h3>Dodaj novo putovanje</h3>
                 <input
                     style={styles.input}
@@ -124,10 +125,10 @@ function Trips() {
                     onChange={(e) => setNewTrip({ ...newTrip, image_url: e.target.value })}
                 />
                 <button style={styles.button} type="submit">Dodaj</button>
-            </form>
+                </form>
 
-            {editingTrip && (
-                <form onSubmit={updateTrip} style={styles.form}>
+                {editingTrip && (
+                    <form onSubmit={updateTrip} style={styles.form}>
                     <h3>Ažuriraj putovanje</h3>
                     <p>ID: {editingTrip.id}</p>
                     <input
@@ -161,50 +162,50 @@ function Trips() {
                         value={editingTrip.image_url || ''}
                         onChange={(e) => setEditingTrip({ ...editingTrip, image_url: e.target.value })}
                     />
-                    <button style={styles.button} type="submit">Sačuvaj</button>
-                    <button style={styles.buttonCancel} type="button" onClick={() => setEditingTrip(null)}>Odustani</button>
-                </form>
-            )}
-
-            <div>
-                <h3 style={styles.subTitle}>Lista putovanja</h3>
-                {trips.length === 0 ? (
-                    <p>Nema upisanih putovanja</p>
-                ) : (
-                    <table style={styles.table}>
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Destinacija</th>
-                            <th>Opis</th>
-                            <th>Cijena (KM)</th>
-                            <th>Slika</th>
-                            <th>Akcije</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {trips.map((trip) => (
-                            <tr key={trip.id}>
-                                <td>{trip.id}</td>
-                                <td>{trip.destination}</td>
-                                <td>{trip.description}</td>
-                                <td>{trip.price}</td>
-                                <td>
-                                    <img
-                                        src={trip.image_url || 'https://via.placeholder.com/120'}
-                                        alt={trip.destination}
-                                        style={styles.thumbnail}
-                                    />
-                                </td>
-                                <td>
-                                    <button style={styles.buttonSmall} onClick={() => startEditing(trip)}>Edit</button>
-                                    <button style={styles.buttonDelete} onClick={() => deleteTrip(trip.id)}>Obriši</button>
-                                </td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                        <button style={styles.button} type="submit">Sačuvaj</button>
+                        <button style={styles.buttonCancel} type="button" onClick={() => setEditingTrip(null)}>Odustani</button>
+                    </form>
                 )}
+
+                <div>
+                    <h3 style={styles.subTitle}>Lista putovanja</h3>
+                    {trips.length === 0 ? (
+                        <p>Nema upisanih putovanja</p>
+                    ) : (
+                        <table style={styles.table}>
+                            <thead>
+                            <tr>
+                                <th style={styles.tableHeaderCell}>ID</th>
+                                <th style={styles.tableHeaderCell}>Destinacija</th>
+                                <th style={styles.tableHeaderCell}>Opis</th>
+                                <th style={styles.tableHeaderCell}>Cijena (KM)</th>
+                                <th style={styles.tableHeaderCell}>Slika</th>
+                                <th style={styles.tableHeaderCell}>Akcije</th>
+                            </tr>                            </thead>
+                            <tbody>
+                            {trips.map((trip) => (
+                                <tr key={trip.id}>
+                                    <td style={styles.tableCell}>{trip.id}</td>
+                                    <td style={styles.tableCell}>{trip.destination}</td>
+                                    <td style={styles.tableCell}>{trip.description}</td>
+                                    <td style={styles.tableCell}>{trip.price}</td>
+                                    <td style={styles.tableCell}>
+                                        <img
+                                            src={trip.image_url || 'https://via.placeholder.com/120'}
+                                            alt={trip.destination}
+                                            style={styles.thumbnail}
+                                        />
+                                    </td>
+                                    <td style={styles.tableCell}>
+                                        <button style={styles.buttonSmall} onClick={() => startEditing(trip)}>Edit</button>
+                                        <button style={styles.buttonDelete} onClick={() => deleteTrip(trip.id)}>Obriši</button>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    )}
+                </div>
             </div>
         </div>
     );
@@ -216,6 +217,18 @@ const styles = {
         backgroundColor: '#e0f2f1',
         minHeight: '100vh'
     },
+    contentWrapper: {
+        width: '100%',
+        maxWidth: '1080px',
+        margin: '0 auto'
+    },
+    backButton: {
+        backgroundColor: '#ffffff',
+        border: 'none',
+        padding: '8px 12px',
+        borderRadius: '10px',
+        cursor: 'pointer'
+    },
     title: {
         color: '#00695c'
     },
@@ -226,7 +239,7 @@ const styles = {
         backgroundColor: '#ffffff',
         padding: '10px',
         marginBottom: '20px',
-        borderRadius: '8px'
+        borderRadius: '10px'
     },
     input: {
         display: 'block',
@@ -241,7 +254,7 @@ const styles = {
         padding: '8px 16px',
         marginRight: '10px',
         cursor: 'pointer',
-        borderRadius: '4px'
+        borderRadius: '10px'
     },
     buttonCancel: {
         backgroundColor: '#c62828',
@@ -249,7 +262,7 @@ const styles = {
         border: 'none',
         padding: '8px 16px',
         cursor: 'pointer',
-        borderRadius: '4px'
+        borderRadius: '10px'
     },
     buttonSmall: {
         backgroundColor: '#20b2aa',
@@ -258,7 +271,7 @@ const styles = {
         padding: '5px 10px',
         marginRight: '5px',
         cursor: 'pointer',
-        borderRadius: '4px'
+        borderRadius: '10px'
     },
     buttonDelete: {
         backgroundColor: '#c62828',
@@ -266,17 +279,32 @@ const styles = {
         border: 'none',
         padding: '5px 10px',
         cursor: 'pointer',
-        borderRadius: '4px'
+        borderRadius: '10px'
     },
     table: {
         borderCollapse: 'collapse',
-        width: '100%'
+        width: '100%',
+        textAlign: 'left',
+        backgroundColor: '#ffffff',
+        borderRadius: '10px',
+        overflow: 'hidden'
     },
     thumbnail: {
         width: '120px',
         height: '80px',
         objectFit: 'cover',
-        borderRadius: '6px'
+        borderRadius: '10px'
+    },
+    tableHeaderCell: {
+        textAlign: 'left',
+        padding: '10px',
+        borderBottom: '1px solid #cfd8dc'
+    },
+    tableCell: {
+        textAlign: 'left',
+        padding: '10px',
+        borderBottom: '1px solid #e0e0e0'
+
     }
 };
 

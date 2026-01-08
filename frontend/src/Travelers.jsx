@@ -80,6 +80,7 @@ function Travelers() {
     return (
         <div style={styles.pageContainer}>
             <div style={styles.contentWrapper}>
+
                 <h1 style={styles.title}>Travelers</h1>
 
             {/* Forma za dodavanje novog traveler-a */}
